@@ -67,6 +67,42 @@
             return files;
         }
 
+        public string GenerateHtml(Node node)
+        {
+            var code = "";
+            if (!node.Childrens.Any())
+            {
+
+                return code;
+            }
+            else
+            {
+                code += "<ul>";
+                foreach (var child in node.Childrens)
+                {
+                    if (child.Content is Folder)
+                    {
+                        code += $"<li><i class=\"bi bi-caret-down mx-2\"></i><i class=\"bi bi-folder mx-2\"></i>{child.Content.Value}" + GenerateHtml(child) + "</li>";
+                    }
+                    else
+                    {
+                        if (child.Content is Utilities.File)
+                        {
+                            code += $"<li><i class=\"bi-file-earmark mx-2\"></i>{child.Content.Value}" + GenerateHtml(child) + "</li>";
+                        }
+                    }
+
+                }
+
+                code += "</ul>";
+            }
+
+
+
+
+            return code;
+
+        }
         public string QueueToPath(Queue<string> queue)
         {
             var result = "";
