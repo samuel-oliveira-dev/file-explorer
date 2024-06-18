@@ -30,23 +30,22 @@ namespace FileExplorer.Controllers
         public string GenerateHtml(Node node)
         {
             var code = "";
-            if(node == null)
+            if(!node.Childrens.Any()) 
             {
-                return "";
-            }
-
-            if(node.Childrens.Count() == 0)
-            {
-                return $"<li>{node.Content.Value}</li>";
+                code += $"<ul><li>{node.Content.Value}</li></ul>";
+                return code;
             } else
             {
-                code = $"<ul>";
+                code += "<ul>";
                 foreach(var child in node.Childrens)
                 {
-                    code = code + GenerateHtml(child);
-                }
-                code = code + "</ul>";
+                    code += $"<li>{child.Content.Value}</li>" + GenerateHtml(child);
+                 }
+
+                code += "</ul>";
             }
+
+
 
 
             return code;
