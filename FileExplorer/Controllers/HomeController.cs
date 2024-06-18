@@ -21,9 +21,37 @@ namespace FileExplorer.Controllers
             string path = _configuration["RootFolder"];
             var dir = new VirtualDirectory(path);
             dir.Tree.Explore(dir.Tree.Root);
+
+            var html = GenerateHtml(dir.Tree.Root);
             return View();
         }
 
+        
+        public string GenerateHtml(Node node)
+        {
+            var code = "";
+            if(node == null)
+            {
+                return "";
+            }
+
+            if(node.Childrens.Count() == 0)
+            {
+                return $"<li>{node.Content.Value}</li>";
+            } else
+            {
+                code = $"<ul>";
+                foreach(var child in node.Childrens)
+                {
+                    code = code + GenerateHtml(child);
+                }
+                code = code + "</ul>";
+            }
+
+
+            return code;
+
+        }
         public IActionResult Privacy()
         {
             return View();
