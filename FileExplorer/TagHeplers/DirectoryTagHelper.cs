@@ -4,23 +4,17 @@ using Microsoft.AspNetCore.Razor.TagHelpers;
 namespace FileExplorer.TagHeplers
 {
     [HtmlTargetElement("directory")]
-    public class DirectoryTagHelper : TagHelper
+    public class DirectoryTagHelper(IConfiguration configuration) : TagHelper
     {
-        private readonly IConfiguration _configuration; 
-
-        public DirectoryTagHelper(IConfiguration configuration) 
-        {
-            _configuration = configuration;
-        }
-        public override void Process(TagHelperContext context, TagHelperOutput output)
+        public override async Task ProcessAsync(TagHelperContext context, TagHelperOutput output)
         {
             output.TagName = "ul";
-            string path = _configuration["RootFolder"];
+            string path = configuration["RootFolder"];
             var dir = new VirtualDirectory(path);
             dir.Tree.Explore(dir.Tree.Root);
 
             var html = dir.GenerateHtml(dir.Tree.Root);
-            output.Content.SetContent(html);
+            output.Content.SetHtmlContent(html);
 
         }
     }
