@@ -82,13 +82,13 @@
                 {
                     if (child.Content is Folder)
                     {
-                        code += $"<li class=\"folder\" state=\"open\"><i class=\"bi bi-caret-down mx-2\"></i><i class=\"bi bi-folder mx-2\"></i>{child.Content.Value}" + GenerateHtml(child) + "</li>";
+                        code += $"<li class=\"folder context-menu\" path=\"\\{child.Content.Value}\" state=\"open\"><i class=\"bi bi-caret-down mx-2 arrow arrow-down\"></i><i class=\"bi bi-folder mx-2\"></i>{child.Content.Value}" + GenerateHtml(child) + "</li>";
                     }
                     else
                     {
                         if (child.Content is Utilities.File)
                         {
-                            code += $"<li><i class=\"bi-file-earmark mx-2\"></i>{child.Content.Value}" + GenerateHtml(child) + "</li>";
+                            code += $"<li class=\"context-menu file\"  path=\"\\{child.Content.Value}\"><i class=\"bi-file-earmark mx-2\"></i>{child.Content.Value}" + GenerateHtml(child) + "</li>";
                         }
                     }
 
@@ -96,10 +96,6 @@
 
                 code += "</ul>";
             }
-
-
-
-
             return code;
 
         }

@@ -10,32 +10,85 @@
     } ul{
         list-style: none;
     }
-</style>
+    .arrow{
+        cursor: pointer;
+    }
 
-<directory></directory>
+    .folder:last-child:hover{
+        background-color: gray
+    }
+
+    .file:hover {
+        background-color: gray
+    }
+</style>
+<link rel="stylesheet" href="~/lib/jquery-contextmenu/jquery.contextMenu.css"/>
+<div id="my-element">clique</div>
+
+<directory root=""></directory>
+
 @section Scripts {
+    <script src="~/lib/jquery-contextmenu/jquery.contextMenu.min.js"></script>
     <script>
         $(document).ready(function () {
-            $('.folder').click(function (event) {
+            $('.arrow').click(function (event) {
                 event.stopPropagation()
-                let folder = $(this);
+                let arrow = $(this);
+                let folder = arrow.parent('.folder').first()
                 let state = folder.attr('state');
                 if (state === 'open') {
                     folder.children('ul').hide(); // Esconde os elementos filhos
                     folder.attr('state', 'closed');
-                    let iconDown = folder.children('.bi-caret-down').first()
+                    let iconDown = folder.children('.arrow').first()
                     iconDown.removeClass('bi-caret-down')
                     iconDown.addClass('bi-caret-right')
                 } else {    
                     if (state === 'closed') {
                         folder.children('ul').show(); // Mostra os elementos filhos
                         folder.attr('state', 'open');
-                        let iconRight = folder.children('.bi-caret-right').first()
+                        let iconRight = folder.children('.arrow').first()
                         iconRight.removeClass('bi-caret-right')
                         iconRight.addClass('bi-caret-down')
                     }
                 }
             });
+            $(function () {
+                $.contextMenu({
+                    selector: '.context-menu',
+                    callback: function (key, options) {
+                        console.log(this)
+                        let clickedItem = $(this);
+
+                        let completePath = []
+                        completePath.push(clickedItem.attr('path'))
+                        clickedItem.parents('.folder').each(function (index, elem) {
+                            let path = $(elem).attr('path')
+                            if (path) {
+                                completePath.push(path)
+                            }
+                        })
+
+                        console.log(completePath.reverse().reduce((acc, current) => acc + current, ''));
+                    },
+                    items: {
+                        "edit": { name: "Edit", icon: "edit" },
+                        "cut": { name: "Cut", icon: "cut" },
+                        "copy": { name: "Copy", icon: "copy" },
+                        "paste": { name: "Paste", icon: "paste" },
+                        "delete": { name: "Delete", icon: "delete" },
+                        "sep1": "---------",
+                        "quit": {
+                            name: "Quit", icon: function () {
+                                return 'context-menu-icon context-menu-icon-quit';
+                            }
+                        }
+                    }
+                });
+            });
+
+            function fileRequest(request) {
+
+            }
         });
     </script>
 }
