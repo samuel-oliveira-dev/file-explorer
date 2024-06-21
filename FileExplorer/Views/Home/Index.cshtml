@@ -12,44 +12,30 @@
     }
 </style>
 
-<ul>
-    <li>
-        <i class="bi bi-caret-down mx-2"></i><i class="bi bi-folder mx-2"></i>Private
-        <ul class="folder" state="open">
-            <li>
-                <i class="bi bi-caret-down mx-2"></i><i class="bi bi-folder mx-2"></i>TESTE
-                <ul>
-                    <li><i class="bi-file-earmark mx-2"></i>dee94129-259a-42f6-acc3-635668200692.gif</li>
-                </ul>
-            </li>
-        </ul>
-    </li>
-    <li>
-        <i class="bi bi-caret-down mx-2"></i><i class="bi bi-folder mx-2"></i>publi
-        <ul>
-            <li><i class="bi bi-caret-down mx-2"></i><i class="bi bi-folder mx-2"></i>teste3</li>
-        </ul>
-    </li>
-    <li>
-        <i class="bi bi-caret-down mx-2"></i><i class="bi bi-folder mx-2"></i>Public
-        <ul>
-            <li>
-                <i class="bi bi-caret-down mx-2"></i><i class="bi bi-folder mx-2"></i>SFCobranca
-                <ul>
-                    <li><i class="bi-file-earmark mx-2"></i>17d9824d-44e4-4d3b-af31-ca50eaba3aad.jpg</li>
-                    <li><i class="bi-file-earmark mx-2"></i>2c686df4-6428-4e26-8246-2378693bcc15.png</li>
-                    <li><i class="bi-file-earmark mx-2"></i>3514e85c-18cb-4544-bc19-701041297581.png</li>
-                    <li><i class="bi-file-earmark mx-2"></i>833ba97f-bd40-4252-b5b7-51ad8a76d518.jpg</li>
-                    <li><i class="bi-file-earmark mx-2"></i>9fa3c1ed-e0db-4de7-913e-6abf948f6378..gif</li>
-                </ul>
-            </li>
-            <li>
-                <i class="bi bi-caret-down mx-2"></i><i class="bi bi-folder mx-2"></i>teste
-                <ul>
-                    <li><i class="bi-file-earmark mx-2"></i>2c951493-0766-4600-bc54-4e8ee30d6615.gif</li>
-                    <li><i class="bi-file-earmark mx-2"></i>7dc3e2b4-10f2-4d2b-8b42-3e88bb4fae2e.gif</li>
-                </ul>
-            </li>
-        </ul>
-    </li>
-</ul>
+<directory></directory>
+@section Scripts {
+    <script>
+        $(document).ready(function () {
+            $('.folder').click(function (event) {
+                event.stopPropagation()
+                let folder = $(this);
+                let state = folder.attr('state');
+                if (state === 'open') {
+                    folder.children('ul').hide(); // Esconde os elementos filhos
+                    folder.attr('state', 'closed');
+                    let iconDown = folder.children('.bi-caret-down').first()
+                    iconDown.removeClass('bi-caret-down')
+                    iconDown.addClass('bi-caret-right')
+                } else {    
+                    if (state === 'closed') {
+                        folder.children('ul').show(); // Mostra os elementos filhos
+                        folder.attr('state', 'open');
+                        let iconRight = folder.children('.bi-caret-right').first()
+                        iconRight.removeClass('bi-caret-right')
+                        iconRight.addClass('bi-caret-down')
+                    }
+                }
+            });
+        });
+    </script>
+}

@@ -82,7 +82,7 @@
                 {
                     if (child.Content is Folder)
                     {
-                        code += $"<li><i class=\"bi bi-caret-down mx-2\"></i><i class=\"bi bi-folder mx-2\"></i>{child.Content.Value}" + GenerateHtml(child) + "</li>";
+                        code += $"<li class=\"folder\" state=\"open\"><i class=\"bi bi-caret-down mx-2\"></i><i class=\"bi bi-folder mx-2\"></i>{child.Content.Value}" + GenerateHtml(child) + "</li>";
                     }
                     else
                     {
